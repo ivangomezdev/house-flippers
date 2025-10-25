@@ -1,16 +1,15 @@
 import Link from 'next/link';
-import Image from 'next/image';
-import '../app/globals.css'
+import './NavBar.css';
 
 export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="navbar__container">
         <Link href="/" className="navbar__logo">
-          <Image 
-            src="/logo.svg" 
-            alt="Green Ray Logo" 
-            width={120} 
+          <img
+            src="https://i.imgur.com/PRtuR4X.png"
+            alt="Green Ray Logo"
+            width={120}
             height={60}
             priority
           />

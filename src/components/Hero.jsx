@@ -1,6 +1,5 @@
-import React from 'react'
-import '../app/globals.css'
-
+import React from 'react';
+import './Hero.css';
 
 export default function Hero() {
   return (
@@ -8,19 +7,22 @@ export default function Hero() {
       <div className="hero__overlay"></div>
       <div className="hero__content">
         <h1 className="hero__title">
-          We buy houses for cash
+        EXPO APEX HOUSE FLIPPERS
         </h1>
         
         <p className="hero__description">
-          We buy houses and then renovate, remodel or rebuild them. 
-          We offer fair value and fast closings.
+         HOUSE FLIPPERS LLC
         </p>
         
         <p className="hero__cta-text">
           Have a house to sell? Reach out to us.
         </p>
-        
-        <button className="hero__button">Sell</button>
+        <div style={{display:"flex",alignItems:"center",gap:"8px"
+        }}>
+        <button className="hero__button">Agregar propiedad +</button>
+         <button className="hero__button">Ver más</button>
+        </div>
+
       </div>
     </section>
   );
