@@ -1,9 +1,11 @@
 import Head from 'next/head';
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
+import Properties from '@/components/Propertys';
 
 
 export default function Home() {
+
   return (
     <>
       <Head>
@@ -17,6 +19,7 @@ export default function Home() {
         <Navbar />
         <main className="main">
           <Hero />
+          <Properties />
         </main>
       </div>
     </>

@@ -9,9 +9,8 @@ export default function Navbar() {
           <img
             src="https://i.imgur.com/PRtuR4X.png"
             alt="Green Ray Logo"
-            width={120}
-            height={60}
-            priority
+           style={{width:"150px",height:"150px"}}
+            
           />
         </Link>
         
