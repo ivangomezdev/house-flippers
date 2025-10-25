@@ -1,41 +1,60 @@
+'use client'; // <-- Convertido a Componente de Cliente
+
+import { useState, useEffect } from 'react';
 import PropertyCard from "./PropertyCard";
 import "./Propertys.css";
+import { db, appId }from '../lib/firebase';
+import { collection, onSnapshot } from 'firebase/firestore';
 
 const Properties = () => {
-  // Datos hardcodeados de las propiedades
-  const properties = [
-    {
-      id: 1,
-      image: "/placeholder-1.jpg", // Asegúrate de tener estas imágenes en tu carpeta /public
-      price: "12,900,000",
-      title: "SLS HARBOUR BEACH, PUERTO CANCUN",
-      details: "5 RECAMARAS • 6 BAÑOS • 1,200 M2 CON • DEPARTAMENTO • MLS® # 1583",
-      isNew: false,
-    },
-    {
-      id: 2,
-      image: "/placeholder-2.jpg", // Asegúrate de tener estas imágenes en tu carpeta /public
-      price: "4,200,000",
-      title: "SLS HARBOUR BEACH, PUERTO CANCUN",
-      details: "4 RECAMARAS • 5 BAÑOS • 600 M2 CON • DEPARTAMENTO • MLS® # 1662",
-      isNew: true,
-    },
-    {
-      id: 3,
-      image: "/placeholder-3.jpg", // Asegúrate de tener estas imágenes en tu carpeta /public
-      price: "3,200,000",
-      title: "LA VELA, PUERTO CANCUN",
-      details: "4 RECAMARAS • 4 BAÑOS • 800 M2 CON • DEPARTAMENTO • MLS® # 1668",
-      isNew: true,
-    },
-  ];
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+    const collectionPath = `/artifacts/${appId}/public/data/properties`;
+    
+    // Escucha cambios en la colección en tiempo real
+    const unsubscribe = onSnapshot(collection(db, collectionPath), (snapshot) => {
+      const propsList = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      
+      // Mi regla de oro es no usar orderBy, así que ordenamos aquí
+      propsList.sort((a, b) => b.createdAt.toDate() - a.createdAt.toDate());
+
+      setProperties(propsList);
+      setLoading(false);
+    }, (error) => {
+      console.error("Error al obtener propiedades: ", error);
+      setLoading(false);
+    });
+
+    // Limpia el listener al desmontar el componente
+    return () => unsubscribe();
+  }, []); // El array vacío asegura que esto se ejecute solo una vez
+
+  if (loading) {
+    return (
+      <section className="properties">
+        <div className="properties__container">
+          <p>Cargando propiedades...</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="properties">
       <div className="properties__container">
-        {properties.map((property) => (
-          <PropertyCard key={property.id} property={property} />
-        ))}
+        {properties.length === 0 ? (
+          <p>No hay propiedades para mostrar. ¡Agrega la primera!</p>
+        ) : (
+          properties.map((property) => (
+            <PropertyCard key={property.id} property={property} />
+          ))
+        )}
       </div>
     </section>
   );

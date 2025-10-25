@@ -1,5 +1,6 @@
 import React from 'react';
 import './Hero.css';
+import Link from 'next/link';
 
 export default function Hero() {
   return (
@@ -19,7 +20,9 @@ export default function Hero() {
         </p>
         <div style={{display:"flex",alignItems:"center",gap:"8px"
         }}>
+            <Link href="/add-property" passHref>
         <button className="hero__button">Agregar propiedad +</button>
+          </Link>
          <button className="hero__button">Ver más</button>
         </div>
 
