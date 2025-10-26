@@ -1,34 +1,28 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged, setLogLevel } from "firebase/auth";
+import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
-const providedConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyBdw_46gBLvoK5I8ue2rRQVxaLtORWHmbM",
   authDomain: "house-flippers-61ff9.firebaseapp.com",
   projectId: "house-flippers-61ff9",
-  storageBucket: "house-flippers-61ff9.firebasestorage.app",
+  storageBucket: "house-flippers-61ff9.appspot.com", // Corrected storage bucket
   messagingSenderId: "341068944581",
   appId: "1:341068944581:web:07d3a64444910f51e70cac"
 };
 
-const firebaseConfig = typeof __firebase_config !== 'undefined' 
-  ? JSON.parse(__firebase_config) 
-  : providedConfig;
-
-// 2. Obtiene el App ID
-export const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-// Inicializa Firebase
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const appId = firebaseConfig.appId;
 
-// Exporta los servicios de Firebase
+// Export the necessary Firebase services
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const db = getFirestore(app); // <-- This is the Firestore instance you need
 export const storage = getStorage(app);
+export { appId };
 
-// 3. Maneja la autenticación
-// (Usa el token inicial si está disponible, de lo contrario, inicia sesión anónimamente)
+// Handles authentication
 export const initializeAuth = () => {
   return new Promise((resolve, reject) => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -54,12 +48,10 @@ export const initializeAuth = () => {
           reject(error);
         }
       }
-      unsubscribe(); // Deja de escuchar después del primer estado
+      unsubscribe();
     }, (error) => {
       console.error("Auth state error:", error);
       reject(error);
     });
   });
 };
-
-// Habilita logs de debug para Firestore

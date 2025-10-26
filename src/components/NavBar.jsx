@@ -6,10 +6,11 @@ export default function Navbar() {
     <nav className="navbar">
       <div className="navbar__container">
         <Link href="/" className="navbar__logo">
-          <img
-            src="https://i.imgur.com/PRtuR4X.png"
+    
+        <img
+            src="https://i.imgur.com/yRmO0zh.png"
             alt="Green Ray Logo"
-           style={{width:"150px",height:"150px"}}
+           style={{width:"100px"}}
             
           />
         </Link>

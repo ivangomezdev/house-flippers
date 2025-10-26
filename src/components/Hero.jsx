@@ -12,12 +12,12 @@ export default function Hero() {
         </h1>
         
         <p className="hero__description">
-         HOUSE FLIPPERS LLC
+         Compra y remodelación de propiedades
         </p>
         
         <p className="hero__cta-text">
-          Have a house to sell? Reach out to us.
-        </p>
+        
+         </p>
         <div style={{display:"flex",alignItems:"center",gap:"8px"
         }}>
             <Link href="/add-property" passHref>
