@@ -2,10 +2,10 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
-import { db, storage, auth, appId, initializeAuth } from '../lib/firebase.js'; // Importa desde tu nuevo archivo
+import { db, auth, appId, initializeAuth } from '../lib/firebase.js';
 import { collection, addDoc } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import "./AddPropertyForm.css"
+
 export default function AddPropertyForm() {
   const router = useRouter();
   const [property, setProperty] = useState({
@@ -17,11 +17,13 @@ export default function AddPropertyForm() {
     bathrooms: '',
     squareMeters: '',
   });
-  const [images, setImages] = useState([]); // Separa las imágenes del resto del formulario
+  const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // Inicializa la autenticación al cargar el componente
+  // Reemplaza esto con tu Client ID de Imgur
+  const IMGUR_CLIENT_ID = 'bbeed037ebe1fa1ae59cefa429df7dec';
+
   useEffect(() => {
     initializeAuth()
       .then(setCurrentUser)
@@ -37,8 +39,7 @@ export default function AddPropertyForm() {
     if (e.target.files) {
       setImages((prev) => [...prev, ...Array.from(e.target.files)]);
     }
-    // Resetea el input para permitir subir el mismo archivo si se elimina y se vuelve a agregar
-    e.target.value = null;
+  
   };
 
   const handleRemoveImage = (indexToRemove) => {
@@ -61,12 +62,25 @@ export default function AddPropertyForm() {
     setIsLoading(true);
 
     try {
-      // 1. Subir todas las imágenes a Firebase Storage
+      // 1. Subir todas las imágenes a Imgur
       const uploadPromises = images.map(async (imageFile) => {
-        const storageRef = ref(storage, `properties/${currentUser.uid}/${Date.now()}_${imageFile.name}`);
-        await uploadBytes(storageRef, imageFile);
-        const downloadURL = await getDownloadURL(storageRef);
-        return downloadURL;
+        const formData = new FormData();
+        formData.append('image', imageFile);
+
+        const response = await fetch('https://api.imgur.com/3/image', {
+          method: 'POST',
+          headers: {
+            Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
+          },
+          body: formData,
+        });
+
+        if (!response.ok) {
+          throw new Error('Error al subir la imagen a Imgur');
+        }
+
+        const data = await response.json();
+        return data.data.link;
       });
 
       const imageUrls = await Promise.all(uploadPromises);
@@ -74,17 +88,16 @@ export default function AddPropertyForm() {
       // 2. Preparar los datos para Firestore
       const docData = {
         ...property,
-        cost: Number(property.cost), // Asegura que los números se guarden como números
+        cost: Number(property.cost),
         bedrooms: Number(property.bedrooms),
         bathrooms: Number(property.bathrooms),
         squareMeters: Number(property.squareMeters),
-        imageUrls: imageUrls, // Guarda el array de URLs de las imágenes
+        imageUrls: imageUrls,
         createdAt: new Date(),
         userId: currentUser.uid,
       };
 
       // 3. Guardar el documento en Firestore
-      // Usa la ruta pública mandatoria
       const collectionPath = `/artifacts/${appId}/public/data/properties`;
       const docRef = await addDoc(collection(db, collectionPath), docData);
 

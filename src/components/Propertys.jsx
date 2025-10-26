@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import PropertyCard from "./PropertyCard";
 import "./Propertys.css";
-import { db, appId }from '../lib/firebase';
+import { db,appId } from '@/lib/firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
 
 const Properties = () => {
