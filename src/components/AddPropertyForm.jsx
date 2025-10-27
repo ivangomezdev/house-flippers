@@ -7,6 +7,7 @@ import { db, auth, appId, initializeAuth } from '../lib/firebase.js';
 import { collection, addDoc } from 'firebase/firestore';
 import { uploadImage } from '../lib/imageUpload.js';
 import "./AddPropertyForm.css";
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 export default function AddPropertyForm() {
   const router = useRouter();
@@ -117,15 +118,16 @@ export default function AddPropertyForm() {
               multiple
               onChange={handleImageChange}
               className="file-input"
-              accept="image/*"
+              accept="image/jpeg,image/png,application/pdf,video/mp4"
               disabled={isLoading}
             />
             <label htmlFor="images" className="file-input-label">
-              <svg xmlns="http://www.w3.org/2000/svg" height="40" viewBox="0 0 24 24" width="40" fill="currentColor">
-                <path d="M0 0h24v24H0z" fill="none"/>
-                <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
-              </svg>
-              <span>Haz clic o arrastra imágenes aquí</span>
+              <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"7px"}}>
+              <CloudUploadIcon style={{color:"#4CAF50",fontSize:"50px"}}/>
+              <span>Subir fotos de la propiedad</span>
+              <p className="formats-text">JPEG, PNG, PDF, y MP4, hasta 50MB</p>
+              <button type="button" className="browse-button">Buscar ▶</button>
+              </div>
             </label>
           </div>
           <div className="file-preview">

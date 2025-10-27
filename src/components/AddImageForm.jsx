@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 import Image from 'next/image';
 import './AddImageForm.css';
 import { uploadImage } from '../lib/imageUpload';
-
 const AddImageForm = ({ propertyId }) => {
   const [newImageFile, setNewImageFile] = useState(null);
   const [newImageUrlPreview, setNewImageUrlPreview] = useState('');
