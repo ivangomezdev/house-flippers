@@ -2,15 +2,23 @@
 'use client';
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic'; // <-- IMPORTANTE: Importa 'dynamic'
 import Navbar from './Navbar';
 import PropertyExpenses from './PropertyExpenses';
 import ImageSlider from './ImageSlider';
-import '../app/property/[id]/PropertyDetail.css'; // Mantenemos los mismos estilos
+import '../app/property/[id]/PropertyDetail.css';
 
-// Este componente recibe los datos ya cargados desde el servidor como props
+// --- CARGA DINÁMICA DEL MAPA ---
+// Esto asegura que el componente de mapa solo se renderice en el cliente (CSR)
+// mientras que el resto de la página se beneficia del renderizado del servidor (SSR).
+const Map = dynamic(() => import('./Map'), { 
+  ssr: false, // <-- La clave para que funcione
+  loading: () => <p style={{textAlign: 'center', padding: '2rem'}}>Cargando mapa...</p>
+});
+
+
 export default function PropertyDetailClient({ property, expenses, refactionImages }) {
   
-  // Determinamos la imagen inicial basándonos en los datos recibidos
   const getInitialImage = () => {
     if (refactionImages && refactionImages.length > 0) {
       return refactionImages[0].newImageUrl;
@@ -31,7 +39,6 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
     setMainImage(imageUrl);
   };
   
-  // Lógica de la galería
   const refactionOriginalUrls = refactionImages.map(r => r.originalImageUrl);
   const standaloneImages = (property.imageUrls || []).filter(url => !refactionOriginalUrls.includes(url));
   const verticalImages = standaloneImages.slice(0, 4);
@@ -117,6 +124,15 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
             </div>
           </div>
         </div>
+        
+        {/* El mapa se renderizará aquí cuando el cliente lo cargue */}
+        {property.latitude && property.longitude && (
+          <Map 
+            lat={property.latitude} 
+            lng={property.longitude} 
+            locationName={property.location} 
+          />
+        )}
         
         <PropertyExpenses expenses={expenses} />
       </div>
