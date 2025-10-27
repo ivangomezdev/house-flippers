@@ -1,0 +1,42 @@
+.donut-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.donut-chart__svg {
+  width: 150px;
+  height: 150px;
+  transform: rotate(-90deg);
+}
+
+.donut-chart__background,
+.donut-chart__progress {
+  fill: none;
+  stroke-width: 10;
+}
+
+.donut-chart__background {
+  stroke: #eee;
+}
+
+.donut-chart__progress {
+  stroke-dasharray: 283; /* Circunferencia de un círculo con r=45 */
+  transition: stroke-dashoffset 0.5s ease;
+}
+
+.donut-chart__percentage {
+  font-size: 24px;
+  font-weight: bold;
+  fill: #333;
+  transform: rotate(90deg);
+  transform-origin: center;
+  text-anchor: middle;
+  dominant-baseline: middle;
+}
+
+.donut-chart__title {
+  font-weight: 500;
+  color: #555;
+}

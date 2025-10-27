@@ -1,10 +1,12 @@
+// src/components/AddPropertyForm.jsx
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import { db, auth, appId, initializeAuth } from '../lib/firebase.js';
 import { collection, addDoc } from 'firebase/firestore';
-import "./AddPropertyForm.css"
+import { uploadImage } from '../lib/imageUpload.js'; 
+import "./AddPropertyForm.css";
 
 export default function AddPropertyForm() {
   const router = useRouter();
@@ -21,9 +23,6 @@ export default function AddPropertyForm() {
   const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
 
-  // Reemplaza esto con tu Client ID de Imgur
-  const IMGUR_CLIENT_ID = 'bbeed037ebe1fa1ae59cefa429df7dec';
-
   useEffect(() => {
     initializeAuth()
       .then(setCurrentUser)
@@ -39,7 +38,6 @@ export default function AddPropertyForm() {
     if (e.target.files) {
       setImages((prev) => [...prev, ...Array.from(e.target.files)]);
     }
-  
   };
 
   const handleRemoveImage = (indexToRemove) => {
@@ -62,27 +60,8 @@ export default function AddPropertyForm() {
     setIsLoading(true);
 
     try {
-      // 1. Subir todas las imágenes a Imgur
-      const uploadPromises = images.map(async (imageFile) => {
-        const formData = new FormData();
-        formData.append('image', imageFile);
-
-        const response = await fetch('https://api.imgur.com/3/image', {
-          method: 'POST',
-          headers: {
-            Authorization: `Client-ID ${IMGUR_CLIENT_ID}`,
-          },
-          body: formData,
-        });
-
-        if (!response.ok) {
-          throw new Error('Error al subir la imagen a Imgur');
-        }
-
-        const data = await response.json();
-        return data.data.link;
-      });
-
+      // 1. Subir todas las imágenes usando el nuevo servicio
+      const uploadPromises = images.map(uploadImage);
       const imageUrls = await Promise.all(uploadPromises);
 
       // 2. Preparar los datos para Firestore
@@ -116,7 +95,7 @@ export default function AddPropertyForm() {
     } catch (error) {
       setIsLoading(false);
       console.error("Error al agregar la propiedad: ", error);
-      Swal.fire('Error', 'Hubo un problema al subir la propiedad.', 'error');
+      Swal.fire('Error', 'Hubo un problema al subir las imágenes o guardar la propiedad.', 'error');
     }
   };
 

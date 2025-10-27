@@ -2,14 +2,16 @@
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative; /* Crucial para posicionar el overlay */
+  overflow: hidden; /* Oculta los elementos que se salen del borde */
 }
 
 .card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .card__image-container {
@@ -22,18 +24,6 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.card__badge {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background-color: #007bff;
-  color: #ffffff;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
 }
 
 .card__content {
@@ -62,8 +52,77 @@
   line-height: 1.4;
 }
 
-.card-link {
+/* --- NUEVOS ESTILOS PARA EL HOVER --- */
+
+/* Overlay oscuro */
+.card__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(22, 22, 22, 0.6); /* Color oscuro semitransparente */
+  opacity: 0; /* Oculto por defecto */
+  transition: opacity 0.3s ease-in-out;
+  z-index: 1;
+}
+
+/* Contenedor de los botones */
+.card__hover-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -40%); /* Pequeño ajuste para centrar mejor */
+  display: flex;
+  gap: 2rem; /* Espacio entre botones */
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  z-index: 2;
+  pointer-events: none; /* No se puede hacer clic por defecto */
+}
+
+/* Mostrar overlay y botones al hacer hover en la tarjeta */
+.card:hover .card__overlay,
+.card:hover .card__hover-content {
+  opacity: 1;
+  pointer-events: auto; /* Permite hacer clic cuando es visible */
+}
+
+.card:hover .card__hover-content {
+    transform: translate(-50%, -50%); /* Anima la posición al aparecer */
+}
+
+/* Estilo para cada botón de acción */
+.card__hover-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  color: rgba(255, 255, 255, 0.808);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
   text-decoration: none;
-  color: inherit;
-  display: block; /* Asegura que el link ocupe el espacio de la tarjeta */
+  border-radius: 50%;
+  font-family: inherit;
+  transform: scale(1);
+  transition: transform 0.2s ease;
+}
+
+.card__hover-button:hover {
+    transform: scale(1.1); /* Efecto de zoom al pasar el cursor sobre el botón */
+}
+
+.card__hover-button .icon {
+  font-size: 36px;
+  width: 36px;
+  height: 36px;
+}
+
+.card__hover-button span {
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
