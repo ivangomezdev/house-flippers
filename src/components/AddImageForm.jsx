@@ -77,8 +77,7 @@ const AddImageForm = ({ propertyId }) => {
     setIsLoading(true);
     try {
       const uploadedUrl = await uploadImage(newImageFile);
-      const refactionImagesColRef = collection(db, `/artifacts/${appId}/public/data/properties/${propertyId}/refactionImages`);
-
+const refactionImagesColRef = collection(db, `/artifacts/${appId}/public/data/properties/${propertyId}/refaccionImages`);
       await addDoc(refactionImagesColRef, {
         newImageUrl: uploadedUrl,
         originalImageUrl: selectedOriginalImageUrl,

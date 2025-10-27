@@ -2,16 +2,18 @@
 'use client';
 import './PropertyExpenses.css';
 
-// Función para formatear la fecha (puedes ajustarla a tu gusto)
-const formatDate = (timestamp) => {
-  if (timestamp && typeof timestamp.toDate === 'function') {
-    return timestamp.toDate().toLocaleDateString('es-ES', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
-  }
-  return 'Fecha no disponible';
+// Función para formatear la fecha
+const formatDate = (dateString) => {
+  if (!dateString) return 'Fecha no disponible';
+  
+  // Creamos un objeto Date a partir del string ISO
+  const date = new Date(dateString);
+  
+  return date.toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 };
 
 const PropertyExpenses = ({ expenses }) => {
@@ -24,7 +26,6 @@ const PropertyExpenses = ({ expenses }) => {
     );
   }
 
-  // Calculamos el total de los gastos
   const totalExpenses = expenses.reduce((total, expense) => total + (expense.amount || 0), 0);
 
   return (

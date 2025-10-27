@@ -1,0 +1,125 @@
+// src/components/PropertyDetailClient.jsx
+'use client';
+
+import { useState } from 'react';
+import Navbar from './Navbar';
+import PropertyExpenses from './PropertyExpenses';
+import ImageSlider from './ImageSlider';
+import '../app/property/[id]/PropertyDetail.css'; // Mantenemos los mismos estilos
+
+// Este componente recibe los datos ya cargados desde el servidor como props
+export default function PropertyDetailClient({ property, expenses, refactionImages }) {
+  
+  // Determinamos la imagen inicial basándonos en los datos recibidos
+  const getInitialImage = () => {
+    if (refactionImages && refactionImages.length > 0) {
+      return refactionImages[0].newImageUrl;
+    }
+    if (property.imageUrls && property.imageUrls.length > 0) {
+      return property.imageUrls[0];
+    }
+    return '';
+  };
+
+  const [mainImage, setMainImage] = useState(getInitialImage());
+
+  const getRefactionData = (imageUrl) => {
+    return refactionImages.find(ri => ri.newImageUrl === imageUrl);
+  };
+
+  const handleThumbnailClick = (imageUrl) => {
+    setMainImage(imageUrl);
+  };
+  
+  // Lógica de la galería
+  const refactionOriginalUrls = refactionImages.map(r => r.originalImageUrl);
+  const standaloneImages = (property.imageUrls || []).filter(url => !refactionOriginalUrls.includes(url));
+  const verticalImages = standaloneImages.slice(0, 4);
+  const horizontalImages = standaloneImages.slice(4);
+  const currentRefaction = getRefactionData(mainImage);
+
+  return (
+    <>
+      <Navbar />
+      <div className="property-detail-container">
+        <h1 className="property-title">{property.location}</h1>
+        
+        <div className="property-card-detail">
+          <div className="gallery-layout">
+            {verticalImages.length > 0 && (
+              <div className="thumbnail-column">
+                {verticalImages.map((url, index) => (
+                  <img
+                    key={`v-${index}`}
+                    src={url}
+                    alt={`Miniatura ${index + 1}`}
+                    className={`thumbnail-image ${mainImage === url ? 'active' : ''}`}
+                    onClick={() => handleThumbnailClick(url)}
+                  />
+                ))}
+              </div>
+            )}
+            
+            <div className="main-gallery-area">
+              <div className="main-image-container">
+                {currentRefaction ? (
+                  <ImageSlider 
+                    beforeImage={currentRefaction.originalImageUrl}
+                    afterImage={currentRefaction.newImageUrl}
+                  />
+                ) : (
+                  <img
+                    key={mainImage}
+                    src={mainImage || 'https://placehold.co/600x400/eeeeee/cccccc?text=Sin+Imagen'}
+                    alt={property.location}
+                    className="main-property-image"
+                  />
+                )}
+              </div>
+              
+              {(horizontalImages.length > 0 || refactionImages.length > 0) && (
+                <div className="thumbnail-row">
+                   {horizontalImages.map((url, index) => (
+                    <img
+                      key={`h-${index}`}
+                      src={url}
+                      alt={`Miniatura ${index + 5}`}
+                      className={`thumbnail-image ${mainImage === url ? 'active' : ''}`}
+                      onClick={() => handleThumbnailClick(url)}
+                    />
+                  ))}
+                  {refactionImages.map((refImg) => (
+                    <img
+                      key={`ref-${refImg.id}`}
+                      src={refImg.newImageUrl}
+                      alt={`Refacción ${refImg.description || ''}`}
+                      className={`thumbnail-image ${mainImage === refImg.newImageUrl ? 'active' : ''}`}
+                      onClick={() => handleThumbnailClick(refImg.newImageUrl)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+          <div className="property-info">
+            <h2>{property.description.substring(0, 100)}...</h2>
+            {currentRefaction && (
+                <p className="refaction-description-text">
+                    <strong>Refacción:</strong> {currentRefaction.description || 'Sin descripción'}
+                </p>
+            )}
+            <p className="price">USD ${property.cost.toLocaleString()}</p>
+            <p className="description">{property.description}</p>
+            <div className="specs">
+              <span>🛏️ {property.bedrooms} Recámaras</span>
+              <span>🛁 {property.bathrooms} Baños</span>
+              <span>📏 {property.squareMeters} m²</span>
+            </div>
+          </div>
+        </div>
+        
+        <PropertyExpenses expenses={expenses} />
+      </div>
+    </>
+  );
+}
