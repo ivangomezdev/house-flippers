@@ -18,8 +18,8 @@ export default function AddPropertyForm() {
     bedrooms: '',
     bathrooms: '',
     squareMeters: '',
-    latitude: '', // <-- NUEVO CAMPO
-    longitude: '', // <-- NUEVO CAMPO
+    latitude: '',
+    longitude: '',
   });
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -73,8 +73,8 @@ export default function AddPropertyForm() {
         bedrooms: Number(property.bedrooms),
         bathrooms: Number(property.bathrooms),
         squareMeters: Number(property.squareMeters),
-        latitude: Number(property.latitude), // <-- GUARDAR COMO NÚMERO
-        longitude: Number(property.longitude), // <-- GUARDAR COMO NÚMERO
+        latitude: Number(property.latitude),
+        longitude: Number(property.longitude),
         imageUrls: imageUrls,
         createdAt: new Date(),
         userId: currentUser.uid,
@@ -109,16 +109,25 @@ export default function AddPropertyForm() {
       <form onSubmit={handleSubmit} className="property-form">
         <div className="form-group">
           <label htmlFor="images">Imágenes de la Propiedad</label>
-          <input
-            type="file"
-            id="images"
-            name="images"
-            multiple
-            onChange={handleImageChange}
-            className="file-input"
-            accept="image/*"
-            disabled={isLoading}
-          />
+          <div className="file-input-wrapper">
+            <input
+              type="file"
+              id="images"
+              name="images"
+              multiple
+              onChange={handleImageChange}
+              className="file-input"
+              accept="image/*"
+              disabled={isLoading}
+            />
+            <label htmlFor="images" className="file-input-label">
+              <svg xmlns="http://www.w3.org/2000/svg" height="40" viewBox="0 0 24 24" width="40" fill="currentColor">
+                <path d="M0 0h24v24H0z" fill="none"/>
+                <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z"/>
+              </svg>
+              <span>Haz clic o arrastra imágenes aquí</span>
+            </label>
+          </div>
           <div className="file-preview">
             {images.length > 0 && (
               <ul>
@@ -170,7 +179,7 @@ export default function AddPropertyForm() {
           <input type="number" id="squareMeters" name="squareMeters" value={property.squareMeters} onChange={handleChange} required disabled={isLoading} />
         </div>
 
-        {/* --- NUEVOS CAMPOS DE COORDENADAS --- */}
+        {/* Campos de coordenadas */}
         <div className="form-group">
           <label htmlFor="latitude">Latitud</label>
           <input type="number" step="any" id="latitude" name="latitude" value={property.latitude} onChange={handleChange} placeholder="Ej: 20.6295" required disabled={isLoading} />
