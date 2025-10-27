@@ -36,8 +36,9 @@
 
 .submit-button {
   display: inline-block;
-  background-color: var(--color-primary);
+   background-image: url("https://i.imgur.com/KyJVfmR.png");
   color: var(--color-white);
+  background-size: cover;
   border: none;
   padding: 0.875rem 2.5rem;
   font-size: 1rem;

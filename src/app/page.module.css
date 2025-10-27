@@ -149,7 +149,7 @@ body {
 }
 
 .hero__button {
-  background-color: var(--color-primary);
+
   color: var(--color-white);
   border: none;
   padding: 1rem 3rem;

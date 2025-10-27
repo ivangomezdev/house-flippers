@@ -8,7 +8,7 @@ export default function Navbar() {
         <Link href="/" className="navbar__logo">
     
         <img
-            src="https://i.imgur.com/yRmO0zh.png"
+            src="https://i.imgur.com/G8zpABo.jpeg"
             alt="Green Ray Logo"
            style={{width:"100px"}}
             

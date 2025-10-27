@@ -5,8 +5,8 @@
   display: flex;
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  position: relative; /* Crucial para posicionar el overlay */
-  overflow: hidden; /* Oculta los elementos que se salen del borde */
+  position: relative;
+  overflow: hidden;
 }
 
 .card:hover {
@@ -52,8 +52,6 @@
   line-height: 1.4;
 }
 
-/* --- NUEVOS ESTILOS PARA EL HOVER --- */
-
 /* Overlay oscuro */
 .card__overlay {
   position: absolute;
@@ -61,8 +59,8 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(22, 22, 22, 0.6); /* Color oscuro semitransparente */
-  opacity: 0; /* Oculto por defecto */
+  background-color: rgba(22, 22, 22, 0.6);
+  opacity: 0;
   transition: opacity 0.3s ease-in-out;
   z-index: 1;
 }
@@ -72,55 +70,50 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -40%); /* Pequeño ajuste para centrar mejor */
+  transform: translate(-50%, -50%);
   display: flex;
-  gap: 2rem; /* Espacio entre botones */
+  gap: 2rem;
   opacity: 0;
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
   z-index: 2;
-  pointer-events: none; /* No se puede hacer clic por defecto */
+  pointer-events: none;
 }
 
-/* Mostrar overlay y botones al hacer hover en la tarjeta */
+/* Mostrar overlay y botones al hacer hover */
 .card:hover .card__overlay,
 .card:hover .card__hover-content {
   opacity: 1;
-  pointer-events: auto; /* Permite hacer clic cuando es visible */
-}
-
-.card:hover .card__hover-content {
-    transform: translate(-50%, -50%); /* Anima la posición al aparecer */
+  pointer-events: auto;
 }
 
 /* Estilo para cada botón de acción */
-.card__hover-button {
+.card__button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
-  color: rgba(255, 255, 255, 0.808);
+  justify-content: center;
+  gap: 8px;
+  color: #d0d0d0;
   background: none;
   border: none;
   cursor: pointer;
   padding: 10px;
   text-decoration: none;
-  border-radius: 50%;
   font-family: inherit;
-  transform: scale(1);
-  transition: transform 0.2s ease;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.card__hover-button:hover {
-    transform: scale(1.1); /* Efecto de zoom al pasar el cursor sobre el botón */
+.card__button:hover {
+  color: #ffffff;
+  transform: scale(1.1);
 }
 
-.card__hover-button .icon {
-  font-size: 36px;
+.card__icon {
   width: 36px;
   height: 36px;
 }
 
-.card__hover-button span {
+.card__button-text {
   font-size: 13px;
   font-weight: 500;
   text-transform: uppercase;

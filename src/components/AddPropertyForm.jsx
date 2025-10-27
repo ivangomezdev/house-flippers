@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import Swal from 'sweetalert2';
 import { db, auth, appId, initializeAuth } from '../lib/firebase.js';
 import { collection, addDoc } from 'firebase/firestore';
-import { uploadImage } from '../lib/imageUpload.js'; 
+import { uploadImage } from '../lib/imageUpload.js';
 import "./AddPropertyForm.css";
 
 export default function AddPropertyForm() {
@@ -18,6 +18,8 @@ export default function AddPropertyForm() {
     bedrooms: '',
     bathrooms: '',
     squareMeters: '',
+    latitude: '', // <-- NUEVO CAMPO
+    longitude: '', // <-- NUEVO CAMPO
   });
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -71,6 +73,8 @@ export default function AddPropertyForm() {
         bedrooms: Number(property.bedrooms),
         bathrooms: Number(property.bathrooms),
         squareMeters: Number(property.squareMeters),
+        latitude: Number(property.latitude), // <-- GUARDAR COMO NÚMERO
+        longitude: Number(property.longitude), // <-- GUARDAR COMO NÚMERO
         imageUrls: imageUrls,
         createdAt: new Date(),
         userId: currentUser.uid,
@@ -165,6 +169,17 @@ export default function AddPropertyForm() {
           <label htmlFor="squareMeters">Cantidad de Metros Cuadrados</label>
           <input type="number" id="squareMeters" name="squareMeters" value={property.squareMeters} onChange={handleChange} required disabled={isLoading} />
         </div>
+
+        {/* --- NUEVOS CAMPOS DE COORDENADAS --- */}
+        <div className="form-group">
+          <label htmlFor="latitude">Latitud</label>
+          <input type="number" step="any" id="latitude" name="latitude" value={property.latitude} onChange={handleChange} placeholder="Ej: 20.6295" required disabled={isLoading} />
+        </div>
+        <div className="form-group">
+          <label htmlFor="longitude">Longitud</label>
+          <input type="number" step="any" id="longitude" name="longitude" value={property.longitude} onChange={handleChange} placeholder="Ej: -87.0738" required disabled={isLoading} />
+        </div>
+        
         <button type="submit" className="submit-button" disabled={isLoading}>
           {isLoading ? 'Guardando...' : 'Agregar Propiedad'}
         </button>
