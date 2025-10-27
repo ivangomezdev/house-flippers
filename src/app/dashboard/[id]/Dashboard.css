@@ -1,7 +1,7 @@
 .dashboard-layout {
   display: flex;
   height: 100vh;
- 
+  
 }
 
 .dashboard-layout__main-content {
@@ -9,6 +9,7 @@
   padding: 2rem 3rem;
   background-color: #f8f9fa;
   overflow-y: auto; /* Para permitir scroll en el contenido principal */
+ 
 }
 
 .placeholder-view {

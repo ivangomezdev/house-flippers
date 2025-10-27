@@ -6,11 +6,13 @@ import Swal from 'sweetalert2';
 import Image from 'next/image';
 import './AddImageForm.css';
 import { uploadImage } from '../lib/imageUpload';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+
 const AddImageForm = ({ propertyId }) => {
   const [newImageFile, setNewImageFile] = useState(null);
   const [newImageUrlPreview, setNewImageUrlPreview] = useState('');
   const [description, setDescription] = useState('');
-  const [propertyImageUrls, setPropertyImageUrls] = useState([]); 
+  const [propertyImageUrls, setPropertyImageUrls] = useState([]);
   const [selectedOriginalImageUrl, setSelectedOriginalImageUrl] = useState(''); // URL de la imagen "antes"
   const [isLoading, setIsLoading] = useState(false);
   const [activeSection, setActiveSection] = useState('newImages'); // 'newImages' o 'refactions'
@@ -123,15 +125,25 @@ const refactionImagesColRef = collection(db, `/artifacts/${appId}/public/data/pr
         <form onSubmit={handleAddRegularImage} className="add-image-form">
           <div className="add-image-form__group">
             <label htmlFor="image-file-regular" className="add-image-form__label">Seleccionar Imagen</label>
-            <input
-              type="file"
-              id="image-file-regular"
-              className="add-image-form__input-file"
-              accept="image/*"
-              onChange={handleNewImageFileChange}
-              disabled={isLoading}
-              required
-            />
+            <div className="file-input-wrapper">
+                <input
+                type="file"
+                id="image-file-regular"
+                className="file-input"
+                accept="image/*"
+                onChange={handleNewImageFileChange}
+                disabled={isLoading}
+                required
+                />
+                <label htmlFor="image-file-regular" className="file-input-label">
+                    <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"7px"}}>
+                        <CloudUploadIcon style={{color:"#4CAF50",fontSize:"50px"}}/>
+                        <span>Subir imagen</span>
+                        <p className="formats-text">JPEG, PNG</p>
+                        <button type="button" className="browse-button">Buscar ▶</button>
+                    </div>
+                </label>
+            </div>
           </div>
           {newImageUrlPreview && (
             <div className="add-image-form__image-preview">
@@ -146,18 +158,28 @@ const refactionImagesColRef = collection(db, `/artifacts/${appId}/public/data/pr
 
       {activeSection === 'refactions' && (
         <form onSubmit={handleAddRefactionImage} className="add-image-form">
-          <div className="add-image-form__group">
-            <label htmlFor="image-file-refaction" className="add-image-form__label">Imagen de la Refacción (Después)</label>
-            <input
-              type="file"
-              id="image-file-refaction"
-              className="add-image-form__input-file"
-              accept="image/*"
-              onChange={handleNewImageFileChange}
-              disabled={isLoading}
-              required
-            />
-          </div>
+            <div className="add-image-form__group">
+                <label htmlFor="image-file-refaction" className="add-image-form__label">Imagen de la Refacción (Después)</label>
+                <div className="file-input-wrapper">
+                    <input
+                    type="file"
+                    id="image-file-refaction"
+                    className="file-input"
+                    accept="image/*"
+                    onChange={handleNewImageFileChange}
+                    disabled={isLoading}
+                    required
+                    />
+                    <label htmlFor="image-file-refaction" className="file-input-label">
+                        <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"7px"}}>
+                            <CloudUploadIcon style={{color:"#4CAF50",fontSize:"50px"}}/>
+                            <span>Subir imagen de refacción</span>
+                            <p className="formats-text">JPEG, PNG</p>
+                            <button type="button" className="browse-button">Buscar ▶</button>
+                        </div>
+                    </label>
+                </div>
+            </div>
           {newImageUrlPreview && (
             <div className="add-image-form__image-preview">
              <img src={newImageUrlPreview} alt="Vista previa de refacción"  objectFit="cover" />
