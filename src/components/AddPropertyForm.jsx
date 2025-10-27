@@ -95,7 +95,7 @@ export default function AddPropertyForm() {
         showConfirmButton: false,
       });
 
-      router.push(`/property/${docRef.id}`);
+      router.push(`dashboard/property/${docRef.id}`);
 
     } catch (error) {
       setIsLoading(false);

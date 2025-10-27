@@ -37,7 +37,6 @@ export default function DashboardPage() {
 
   return (
     <>
-      <Navbar />
       <div className="dashboard-layout">
         <Sidebar activeView={activeView} setActiveView={setActiveView} />
         <main className="dashboard-layout__main-content">

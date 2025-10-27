@@ -1,13 +1,14 @@
 .dashboard-layout {
   display: flex;
-  min-height: calc(100vh - 80px); /* Ajusta 80px a la altura de tu Navbar */
-  margin-top: 80px; /* Mismo valor que la altura del Navbar */
+  height: 100vh;
+ 
 }
 
 .dashboard-layout__main-content {
   flex-grow: 1;
   padding: 2rem 3rem;
   background-color: #f8f9fa;
+  overflow-y: auto; /* Para permitir scroll en el contenido principal */
 }
 
 .placeholder-view {
