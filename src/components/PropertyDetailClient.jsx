@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic'; // <-- IMPORTANTE: Importa 'dynamic'
-import Navbar from './Navbar';
+import Navbar from './NavBar';
 import PropertyExpenses from './PropertyExpenses';
 import ImageSlider from './ImageSlider';
 import '../app/property/[id]/PropertyDetail.css';

@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import Navbar from '../../../components/Navbar';
 import Sidebar from '../../../components/Sidebar';
 import AddExpenseForm from '../../../components/AddExpenseForm';
 import AddImageForm from '../../../components/AddImageForm'; // <-- NUEVO IMPORT
