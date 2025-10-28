@@ -7,10 +7,8 @@ import Navbar from './Navbar';
 import PropertyExpenses from './PropertyExpenses';
 import ImageSlider from './ImageSlider';
 import '../app/property/[id]/PropertyDetail.css';
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
 
-// --- CARGA DINÁMICA DEL MAPA ---
-// Esto asegura que el componente de mapa solo se renderice en el cliente (CSR)
-// mientras que el resto de la página se beneficia del renderizado del servidor (SSR).
 const Map = dynamic(() => import('./Map'), { 
   ssr: false, // <-- La clave para que funcione
   loading: () => <p style={{textAlign: 'center', padding: '2rem'}}>Cargando mapa...</p>
@@ -49,7 +47,7 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
     <>
       <Navbar />
       <div className="property-detail-container">
-        <h1 className="property-title">{property.location}</h1>
+        <h1 className="property-title"> <FmdGoodIcon/> {property.location}</h1>
         
         <div className="property-card-detail">
           <div className="gallery-layout">
@@ -64,6 +62,7 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
                     onClick={() => handleThumbnailClick(url)}
                   />
                 ))}
+                <img style={{width:"100px"}} src="https://i.imgur.com/G8zpABo.jpeg" alt="" />
               </div>
             )}
             
@@ -109,7 +108,7 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
             </div>
           </div>
           <div className="property-info">
-            <h2>{property.description.substring(0, 100)}...</h2>
+            <h2>{property.description.substring(0, 100)}</h2>
             {currentRefaction && (
                 <p className="refaction-description-text">
                     <strong>Refacción:</strong> {currentRefaction.description || 'Sin descripción'}

@@ -1,13 +1,12 @@
 // src/components/Map.jsx
 'use client';
 
-// Asegúrate de importar 'leaflet/dist/leaflet.css' ANTES de los componentes
-import 'leaflet/dist/leaflet.css'; 
+import 'leaflet/dist/leaflet.css';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import './Map.css';
 
-// Arreglo para el icono por defecto de Leaflet que a veces no carga en Webpack
+// Arreglo para el icono por defecto de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 
 L.Icon.Default.mergeOptions({
@@ -17,16 +16,11 @@ L.Icon.Default.mergeOptions({
 });
 
 const Map = ({ lat, lng, locationName }) => {
-  if (typeof window === 'undefined') {
-    return null; // No renderizar nada en el servidor
-  }
-
   const position = [lat, lng];
 
   return (
     <div className="map-container">
       <h2 className="map-title">Ubicación en el Mapa</h2>
-      {/* El componente MapContainer necesita tener una altura definida para ser visible */}
       <MapContainer 
         center={position} 
         zoom={15} 

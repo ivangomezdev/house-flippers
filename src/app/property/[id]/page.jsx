@@ -5,12 +5,21 @@ import PropertyDetailClient from '../../../components/PropertyDetailClient';
 
 // Función para convertir datos no serializables (como Timestamps)
 const serializeData = (data) => {
-  for (const key in data) {
-    if (data[key] instanceof Timestamp) {
-      data[key] = data[key].toDate().toISOString(); // Convertimos a string ISO
+  const serialized = { ...data };
+  for (const key in serialized) {
+    if (serialized[key] instanceof Timestamp) {
+      serialized[key] = serialized[key].toDate().toISOString(); // Convertimos a string ISO
+    } else if (serialized[key] && typeof serialized[key] === 'object' && !Array.isArray(serialized[key])) {
+      // Recursivamente serializar objetos anidados
+      serialized[key] = serializeData(serialized[key]);
+    } else if (Array.isArray(serialized[key])) {
+      // Serializar arrays
+      serialized[key] = serialized[key].map(item => 
+        typeof item === 'object' && item !== null ? serializeData(item) : item
+      );
     }
   }
-  return data;
+  return serialized;
 };
 
 // Esta es la función que se ejecuta en el servidor
@@ -24,7 +33,8 @@ async function getPropertyData(id) {
       return null;
     }
 
-    const propertyData = { id: docSnap.id, ...docSnap.data() };
+    // Serializar propertyData
+    const propertyData = serializeData({ id: docSnap.id, ...docSnap.data() });
 
     // Fetch expenses
     const expensesColPath = `${docPath}/expenses`;
@@ -38,7 +48,9 @@ async function getPropertyData(id) {
     // Fetch refaction images
     const refactionImagesColRef = collection(db, `${docPath}/refaccionImages`);
     const refactionSnapshot = await getDocs(refactionImagesColRef);
-    const refactionsList = refactionSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const refactionsList = refactionSnapshot.docs.map(doc => 
+      serializeData({ id: doc.id, ...doc.data() })
+    );
 
     return {
       property: propertyData,
@@ -61,7 +73,7 @@ export default async function PropertyDetailPage({ params }) {
   if (!data) {
     return (
       <div className="property-detail-container">
-        <h1 className="loading-text">Prop deficiencia Propiedad no encontrada.</h1>
+        <h1 className="loading-text">Propiedad no encontrada.</h1>
       </div>
     );
   }
