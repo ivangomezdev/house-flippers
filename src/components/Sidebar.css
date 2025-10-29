@@ -41,8 +41,8 @@
 }
 
 .sidebar__link--active {
-  background-color: #e8f5e9; /* Un verde muy claro */
-  color: var(--color-primary);
+  background-color: #00457a4a; /* Un verde muy claro */
+  color: white;
   font-weight: 500;
-  border-left-color: var(--color-primary);
+  border-left-color: blue;
 }

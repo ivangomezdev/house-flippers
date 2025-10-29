@@ -123,7 +123,7 @@ export default function AddPropertyForm() {
             />
             <label htmlFor="images" className="file-input-label">
               <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"7px"}}>
-              <CloudUploadIcon style={{color:"#4CAF50",fontSize:"50px"}}/>
+              <CloudUploadIcon style={{color:"#001b4cff",fontSize:"50px"}}/>
               <span>Subir fotos de la propiedad</span>
               <p className="formats-text">JPEG, PNG, PDF, y MP4, hasta 50MB</p>
               <button type="button" className="browse-button">Buscar ▶</button>

@@ -89,7 +89,7 @@ const TotalInvestment = () => {
       </div>
 
       <div className="investment-view__charts-container">
-        <DonutChart title="Propiedades" percentage={propertyPercentage} color="#4CAF50" />
+        <DonutChart title="Propiedades" percentage={propertyPercentage} color="#001b4cff" />
         <DonutChart title="Refacciones" percentage={renovationPercentage} color="#FFC107" />
         <DonutChart title="Ganancia / Inversión" percentage={earningsPercentage} color="#2196F3" />
       </div>

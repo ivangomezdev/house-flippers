@@ -51,7 +51,8 @@
 
 .expense-form__button {
   align-self: flex-start;
-  background-color: var(--color-primary);
+  background-image:url("https://i.imgur.com/UEe4UPa.png") ;
+  background-size: 300px;
   color: var(--color-white);
   border: none;
   padding: 0.875rem 2.5rem;

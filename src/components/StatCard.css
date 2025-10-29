@@ -14,8 +14,8 @@
   height: 50px;
   display: grid;
   place-items: center;
-  background-color: var(--color-primary-light, #e8f5e9);
-  color: var(--color-primary);
+  background-color:rgba(0, 27, 76, 0.304);
+  color:white;
   border-radius: 50%;
 }
 

@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
-import Image from 'next/image'; // Importamos el componente Image
+import Image from 'next/image';
 import Navbar from './NavBar';
 import PropertyExpenses from './PropertyExpenses';
 import ImageSlider from './ImageSlider';
@@ -26,7 +26,7 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
     if (property.imageUrls && property.imageUrls.length > 0) {
       return property.imageUrls[0];
     }
-    return '';
+    return 'https://placehold.co/600x400/eeeeee/cccccc?text=Sin+Imagen';
   };
 
   const [mainImage, setMainImage] = useState(getInitialImage());
@@ -39,39 +39,46 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
     setMainImage(imageUrl);
   };
 
+  // Lógica para dividir las imágenes
   const refactionOriginalUrls = refactionImages.map(r => r.originalImageUrl);
   const standaloneImages = (property.imageUrls || []).filter(url => !refactionOriginalUrls.includes(url));
+  
+  // Dividimos las imágenes: las primeras 4 a la columna vertical, el resto a la horizontal.
   const verticalImages = standaloneImages.slice(0, 4);
   const horizontalImages = standaloneImages.slice(4);
+
   const currentRefaction = getRefactionData(mainImage);
 
   return (
     <>
       <Navbar />
       <div className="property-detail-container">
-        <h1 className="property-title"> <FmdGoodIcon/> {property.location}</h1>
+        <h1 className="property-title">
+          <span style={{display:"flex",alignItems:"center"}}> <FmdGoodIcon/> {property.location}</span>
+          <img style={{width:"100px"}} src="https://i.imgur.com/Ql5bBMO.png" alt="" />
+           </h1>
 
         <div className="property-card-detail">
           <div className="gallery-layout">
+            {/* --- COLUMNA DE MINIATURAS (IZQUIERDA) --- */}
             {verticalImages.length > 0 && (
               <div className="thumbnail-column">
                 {verticalImages.map((url, index) => (
-                  // Reemplazamos <img> por <Image> en miniaturas verticales
                   <Image
                     key={`v-${index}`}
                     src={url}
                     alt={`Miniatura ${index + 1}`}
-                    width={90}
-                    height={70}
+                    width={90}  // Tamaño específico para columna
+                    height={70} // Tamaño específico para columna
                     style={{ objectFit: 'cover' }}
                     className={`thumbnail-image ${mainImage === url ? 'active' : ''}`}
                     onClick={() => handleThumbnailClick(url)}
                   />
                 ))}
-                <img style={{width:"100px"}} src="https://i.imgur.com/G8zpABo.jpeg" alt="" />
               </div>
             )}
 
+            {/* --- ÁREA PRINCIPAL DE LA GALERÍA (CENTRO) --- */}
             <div className="main-gallery-area">
               <div className="main-image-container">
                 {currentRefaction ? (
@@ -80,12 +87,12 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
                     afterImage={currentRefaction.newImageUrl}
                   />
                 ) : (
-                  // Reemplazamos <img> por <Image> en la imagen principal
                   <Image
                     key={mainImage}
-                    src={mainImage || 'https://placehold.co/600x400/eeeeee/cccccc?text=Sin+Imagen'}
+                    src={mainImage}
                     alt={property.location}
                     fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     style={{ objectFit: 'contain' }}
                     priority
                     className="main-property-image"
@@ -93,16 +100,16 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
                 )}
               </div>
 
+              {/* --- FILA DE MINIATURAS (ABAJO) --- */}
               {(horizontalImages.length > 0 || refactionImages.length > 0) && (
                 <div className="thumbnail-row">
                    {horizontalImages.map((url, index) => (
-                    // Reemplazamos <img> por <Image> en miniaturas horizontales
                     <Image
                       key={`h-${index}`}
                       src={url}
                       alt={`Miniatura ${index + 5}`}
-                      width={100}
-                      height={80}
+                      width={100} // Tamaño específico para fila
+                      height={80}  // Tamaño específico para fila
                       style={{ objectFit: 'cover' }}
                       className={`thumbnail-image ${mainImage === url ? 'active' : ''}`}
                       onClick={() => handleThumbnailClick(url)}
@@ -113,8 +120,8 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
                       key={`ref-${refImg.id}`}
                       src={refImg.newImageUrl}
                       alt={`Refacción ${refImg.description || ''}`}
-                      width={100}
-                      height={80}
+                      width={100} // Tamaño específico para fila
+                      height={80}  // Tamaño específico para fila
                       style={{ objectFit: 'cover' }}
                       className={`thumbnail-image ${mainImage === refImg.newImageUrl ? 'active' : ''}`}
                       onClick={() => handleThumbnailClick(refImg.newImageUrl)}
@@ -124,6 +131,8 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
               )}
             </div>
           </div>
+          
+          {/* --- INFORMACIÓN DE LA PROPIEDAD --- */}
           <div className="property-info">
             <h2>{property.description.substring(0, 100)}</h2>
             {currentRefaction && (

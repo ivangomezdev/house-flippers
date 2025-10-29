@@ -39,8 +39,8 @@
 }
 
 .add-image-form-container__tab--active {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
+  color:#001b4cff;
+  border-bottom-color: #001b4cff;
   font-weight: 600;
 }
 

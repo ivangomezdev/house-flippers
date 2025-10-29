@@ -137,7 +137,7 @@ const refactionImagesColRef = collection(db, `/artifacts/${appId}/public/data/pr
                 />
                 <label htmlFor="image-file-regular" className="file-input-label">
                     <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"7px"}}>
-                        <CloudUploadIcon style={{color:"#4CAF50",fontSize:"50px"}}/>
+                        <CloudUploadIcon style={{color:"#001b4cff",fontSize:"50px"}}/>
                         <span>Subir imagen</span>
                         <p className="formats-text">JPEG, PNG</p>
                         <button type="button" className="browse-button">Buscar ▶</button>
@@ -172,7 +172,7 @@ const refactionImagesColRef = collection(db, `/artifacts/${appId}/public/data/pr
                     />
                     <label htmlFor="image-file-refaction" className="file-input-label">
                         <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"7px"}}>
-                            <CloudUploadIcon style={{color:"#4CAF50",fontSize:"50px"}}/>
+                            <CloudUploadIcon style={{color:"#001b4cff",fontSize:"50px"}}/>
                             <span>Subir imagen de refacción</span>
                             <p className="formats-text">JPEG, PNG</p>
                             <button type="button" className="browse-button">Buscar ▶</button>
