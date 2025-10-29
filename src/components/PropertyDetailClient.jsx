@@ -2,14 +2,23 @@
 'use client';
 
 import { useState } from 'react';
+<<<<<<< HEAD
 import dynamic from 'next/dynamic';
 import Image from 'next/image'; // Importamos el componente Image
 import Navbar from './Navbar';
+=======
+import dynamic from 'next/dynamic'; // <-- IMPORTANTE: Importa 'dynamic'
+import Navbar from './NavBar';
+>>>>>>> 4bbdbc1b802817288d8923cfd1a04c304dc06d82
 import PropertyExpenses from './PropertyExpenses';
 import ImageSlider from './ImageSlider';
 import '../app/property/[id]/PropertyDetail.css';
+import FmdGoodIcon from '@mui/icons-material/FmdGood';
 
+<<<<<<< HEAD
 // --- CARGA DINÁMICA DEL MAPA ---
+=======
+>>>>>>> 4bbdbc1b802817288d8923cfd1a04c304dc06d82
 const Map = dynamic(() => import('./Map'), { 
   ssr: false,
   loading: () => <p style={{textAlign: 'center', padding: '2rem'}}>Cargando mapa...</p>
@@ -48,7 +57,7 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
     <>
       <Navbar />
       <div className="property-detail-container">
-        <h1 className="property-title">{property.location}</h1>
+        <h1 className="property-title"> <FmdGoodIcon/> {property.location}</h1>
         
         <div className="property-card-detail">
           <div className="gallery-layout">
@@ -67,6 +76,7 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
                     onClick={() => handleThumbnailClick(url)}
                   />
                 ))}
+                <img style={{width:"100px"}} src="https://i.imgur.com/G8zpABo.jpeg" alt="" />
               </div>
             )}
             
@@ -124,7 +134,7 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
             </div>
           </div>
           <div className="property-info">
-            <h2>{property.description.substring(0, 100)}...</h2>
+            <h2>{property.description.substring(0, 100)}</h2>
             {currentRefaction && (
                 <p className="refaction-description-text">
                     <strong>Refacción:</strong> {currentRefaction.description || 'Sin descripción'}

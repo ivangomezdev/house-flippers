@@ -1,5 +1,5 @@
 import AddPropertyForm from '../../components/AddPropertyForm';
-import Navbar from '../../components/Navbar';
+import Navbar from '../../components/NavBar';
 
 export default function AddPropertyPage() {
   return (
