@@ -132,7 +132,7 @@
 
 .add-image-form__button {
   width: 100%; /* <-- CAMBIO: Ocupa todo el ancho disponible */
-  background-image: url("https://i.imgur.com/KyJVfmR.png");
+  background-image: url("https://i.imgur.com/UEe4UPa.png");
 
   color: var(--color-white);
   border: none;
@@ -216,7 +216,7 @@
     margin: 0;
 }
 .browse-button {
-    background-image: url("https://i.imgur.com/KyJVfmR.png");
+    background-image: url("https://i.imgur.com/UEe4UPa.png");
     background-size: cover;
     background-position: center;
     color: white;

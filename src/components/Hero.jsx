@@ -7,13 +7,8 @@ export default function Hero() {
     <section className="hero">
       <div className="hero__overlay"></div>
       <div className="hero__content">
-        <h1 className="hero__title">
-        EXPO APEX HOUSE FLIPPERS
-        </h1>
-        
-        <p className="hero__description">
-         Compra y remodelación de propiedades
-        </p>
+       <img style={{width:"500px",background:"rgba(200, 200, 200, 0.2)",borderRadius:"5px",padding:"8px"}} src="https://i.imgur.com/Ql5bBMO.png" alt="logoTitle" />
+       
         
         <p className="hero__cta-text">
         
