@@ -2,17 +2,16 @@
 'use client';
 
 import { useState } from 'react';
-import dynamic from 'next/dynamic'; // <-- IMPORTANTE: Importa 'dynamic'
+import dynamic from 'next/dynamic';
+import Image from 'next/image'; // Importamos el componente Image
 import Navbar from './Navbar';
 import PropertyExpenses from './PropertyExpenses';
 import ImageSlider from './ImageSlider';
 import '../app/property/[id]/PropertyDetail.css';
 
 // --- CARGA DINÁMICA DEL MAPA ---
-// Esto asegura que el componente de mapa solo se renderice en el cliente (CSR)
-// mientras que el resto de la página se beneficia del renderizado del servidor (SSR).
 const Map = dynamic(() => import('./Map'), { 
-  ssr: false, // <-- La clave para que funcione
+  ssr: false,
   loading: () => <p style={{textAlign: 'center', padding: '2rem'}}>Cargando mapa...</p>
 });
 
@@ -56,10 +55,14 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
             {verticalImages.length > 0 && (
               <div className="thumbnail-column">
                 {verticalImages.map((url, index) => (
-                  <img
+                  // Reemplazamos <img> por <Image> en miniaturas verticales
+                  <Image
                     key={`v-${index}`}
                     src={url}
                     alt={`Miniatura ${index + 1}`}
+                    width={90}
+                    height={70}
+                    style={{ objectFit: 'cover' }}
                     className={`thumbnail-image ${mainImage === url ? 'active' : ''}`}
                     onClick={() => handleThumbnailClick(url)}
                   />
@@ -75,10 +78,15 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
                     afterImage={currentRefaction.newImageUrl}
                   />
                 ) : (
-                  <img
+                  // Reemplazamos <img> por <Image> en la imagen principal
+                  <Image
                     key={mainImage}
                     src={mainImage || 'https://placehold.co/600x400/eeeeee/cccccc?text=Sin+Imagen'}
                     alt={property.location}
+                    fill
+                    style={{ objectFit: 'contain' }}
+                    priority
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="main-property-image"
                   />
                 )}
@@ -87,19 +95,26 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
               {(horizontalImages.length > 0 || refactionImages.length > 0) && (
                 <div className="thumbnail-row">
                    {horizontalImages.map((url, index) => (
-                    <img
+                    // Reemplazamos <img> por <Image> en miniaturas horizontales
+                    <Image
                       key={`h-${index}`}
                       src={url}
                       alt={`Miniatura ${index + 5}`}
+                      width={100}
+                      height={80}
+                      style={{ objectFit: 'cover' }}
                       className={`thumbnail-image ${mainImage === url ? 'active' : ''}`}
                       onClick={() => handleThumbnailClick(url)}
                     />
                   ))}
                   {refactionImages.map((refImg) => (
-                    <img
+                    <Image
                       key={`ref-${refImg.id}`}
                       src={refImg.newImageUrl}
                       alt={`Refacción ${refImg.description || ''}`}
+                      width={100}
+                      height={80}
+                      style={{ objectFit: 'cover' }}
                       className={`thumbnail-image ${mainImage === refImg.newImageUrl ? 'active' : ''}`}
                       onClick={() => handleThumbnailClick(refImg.newImageUrl)}
                     />
@@ -125,7 +140,6 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
           </div>
         </div>
         
-        {/* El mapa se renderizará aquí cuando el cliente lo cargue */}
         {property.latitude && property.longitude && (
           <Map 
             lat={property.latitude} 

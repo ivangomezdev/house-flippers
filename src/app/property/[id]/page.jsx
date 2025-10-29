@@ -3,17 +3,18 @@ import { db, appId } from '../../../lib/firebase';
 import { doc, getDoc, collection, getDocs, Timestamp } from 'firebase/firestore';
 import PropertyDetailClient from '../../../components/PropertyDetailClient';
 
-// Función para convertir datos no serializables (como Timestamps)
+// This function now handles any object with Timestamp fields
 const serializeData = (data) => {
-  for (const key in data) {
-    if (data[key] instanceof Timestamp) {
-      data[key] = data[key].toDate().toISOString(); // Convertimos a string ISO
+  const serialized = { ...data };
+  for (const key in serialized) {
+    if (serialized[key] instanceof Timestamp) {
+      serialized[key] = serialized[key].toDate().toISOString(); // Convert Timestamp to ISO string
     }
   }
-  return data;
+  return serialized;
 };
 
-// Esta es la función que se ejecuta en el servidor
+// This function runs on the server
 async function getPropertyData(id) {
   try {
     const docPath = `/artifacts/${appId}/public/data/properties/${id}`;
@@ -24,21 +25,24 @@ async function getPropertyData(id) {
       return null;
     }
 
-    const propertyData = { id: docSnap.id, ...docSnap.data() };
+    // --- FIX IS HERE ---
+    // We now serialize the main property data to convert its Timestamp
+    const propertyData = serializeData({ id: docSnap.id, ...docSnap.data() });
 
     // Fetch expenses
     const expensesColPath = `${docPath}/expenses`;
     const expensesSnapshot = await getDocs(collection(db, expensesColPath));
     const expensesList = expensesSnapshot.docs.map(doc => {
-      const data = doc.data();
-      return serializeData({ id: doc.id, ...data });
+      return serializeData({ id: doc.id, ...doc.data() }); // Re-using the improved function
     });
-    expensesList.sort((a, b) => new Date(b.date) - new Date(a.date));
+    // Sorting can now be done reliably with ISO strings
+    expensesList.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
 
     // Fetch refaction images
     const refactionImagesColRef = collection(db, `${docPath}/refaccionImages`);
     const refactionSnapshot = await getDocs(refactionImagesColRef);
-    const refactionsList = refactionSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    const refactionsList = refactionSnapshot.docs.map(doc => serializeData({ id: doc.id, ...doc.data() }));
 
     return {
       property: propertyData,
@@ -51,9 +55,8 @@ async function getPropertyData(id) {
   }
 }
 
-// El componente de página ahora es un Server Component
+// The page component remains a Server Component
 export default async function PropertyDetailPage({ params }) {
-  // Await params to resolve the Promise
   const { id } = await params;
 
   const data = await getPropertyData(id);
@@ -61,12 +64,12 @@ export default async function PropertyDetailPage({ params }) {
   if (!data) {
     return (
       <div className="property-detail-container">
-        <h1 className="loading-text">Prop deficiencia Propiedad no encontrada.</h1>
+        <h1 className="loading-text">Propiedad no encontrada.</h1>
       </div>
     );
   }
 
-  // Renderizamos el componente de cliente y le pasamos los datos como props
+  // We now pass fully serialized, plain objects to the Client Component
   return (
     <PropertyDetailClient 
       property={data.property} 

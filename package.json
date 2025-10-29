@@ -17,6 +17,7 @@
     "img-comparison-slider": "^8.0.6",
     "leaflet": "^1.9.4",
     "next": "16.0.0",
+    "node-fetch": "^3.3.2",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-leaflet": "^5.0.0",

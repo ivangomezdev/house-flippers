@@ -24,12 +24,13 @@ const PropertyCard = ({ property }) => {
   return (
     <div className="card">
       <div className="card__image-container">
-        <img
+        <Image
           src={imageUrl}
           alt={`Imagen de ${property.location}`}
-          width={400}
-          height={300}
+          fill
+          style={{ objectFit: 'cover' }}
           className="card__image"
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           onError={(e) => { e.target.src = 'https://placehold.co/400x300/eeeeee/cccccc?text=Error'; }}
         />
       </div>
@@ -45,7 +46,6 @@ const PropertyCard = ({ property }) => {
           <ViewIcon />
           <span className="card__button-text">Ver</span>
         </Link>
-        {/* ENLACE ACTUALIZADO */}
         <Link href={`/dashboard/${property.id}`} className="card__button">
           <DashboardIcon />
           <span className="card__button-text">Actualizar</span>

@@ -1,28 +1,33 @@
 // src/lib/imageUpload.js
 
-const IMGBB_API_KEY = 'e69966f319cd4a033a3a6eb09c8df789';
-const IMGBB_UPLOAD_URL = 'https://api.imgbb.com/1/upload';
-
-
 export const uploadImage = async (imageFile) => {
   const formData = new FormData();
-  formData.append('image', imageFile);
+  // La ruta API espera que el campo se llame 'images'
+  formData.append('images', imageFile);
 
   try {
-    const response = await fetch(`${IMGBB_UPLOAD_URL}?key=${IMGBB_API_KEY}`, {
+    // Hacemos la petición a nuestra propia API de Next.js
+    const response = await fetch('/api/upload', {
       method: 'POST',
       body: formData,
     });
 
     if (!response.ok) {
       const errorData = await response.json();
-      throw new Error(errorData.error.message || 'Error al subir la imagen a Imgbb');
+      throw new Error(errorData.error || 'Error al subir la imagen al servidor.');
     }
 
     const data = await response.json();
-    return data.data.url;
+    
+    // Nuestra API devuelve un array de URLs, tomamos la primera
+    if (data.imageUrls && data.imageUrls.length > 0) {
+      return data.imageUrls[0];
+    } else {
+      throw new Error('La API no devolvió una URL de imagen válida.');
+    }
+    
   } catch (error) {
-    console.error('Error en la subida a Imgbb:', error);
+    console.error('Error en la subida a través de la API local:', error);
     throw error;
   }
 };
