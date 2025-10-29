@@ -58,9 +58,10 @@ text-shadow: 3px 8px 7px rgba(149, 149, 149, 0.347);
 
 .main-property-image {
   width: 100%;
+  max-width: 500px;
+  
   height: 100%;
   object-fit: contain; /* Muestra la imagen completa sin recortar */
-  /* Animación suave de aparición */
   animation: fadeIn 0.5s ease-in-out;
 }
 

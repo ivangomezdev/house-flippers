@@ -2,31 +2,23 @@
 'use client';
 
 import { useState } from 'react';
-<<<<<<< HEAD
 import dynamic from 'next/dynamic';
 import Image from 'next/image'; // Importamos el componente Image
-import Navbar from './Navbar';
-=======
-import dynamic from 'next/dynamic'; // <-- IMPORTANTE: Importa 'dynamic'
 import Navbar from './NavBar';
->>>>>>> 4bbdbc1b802817288d8923cfd1a04c304dc06d82
 import PropertyExpenses from './PropertyExpenses';
 import ImageSlider from './ImageSlider';
 import '../app/property/[id]/PropertyDetail.css';
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 
-<<<<<<< HEAD
 // --- CARGA DINÁMICA DEL MAPA ---
-=======
->>>>>>> 4bbdbc1b802817288d8923cfd1a04c304dc06d82
-const Map = dynamic(() => import('./Map'), { 
+const Map = dynamic(() => import('./Map'), {
   ssr: false,
   loading: () => <p style={{textAlign: 'center', padding: '2rem'}}>Cargando mapa...</p>
 });
 
 
 export default function PropertyDetailClient({ property, expenses, refactionImages }) {
-  
+
   const getInitialImage = () => {
     if (refactionImages && refactionImages.length > 0) {
       return refactionImages[0].newImageUrl;
@@ -46,7 +38,7 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
   const handleThumbnailClick = (imageUrl) => {
     setMainImage(imageUrl);
   };
-  
+
   const refactionOriginalUrls = refactionImages.map(r => r.originalImageUrl);
   const standaloneImages = (property.imageUrls || []).filter(url => !refactionOriginalUrls.includes(url));
   const verticalImages = standaloneImages.slice(0, 4);
@@ -58,7 +50,7 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
       <Navbar />
       <div className="property-detail-container">
         <h1 className="property-title"> <FmdGoodIcon/> {property.location}</h1>
-        
+
         <div className="property-card-detail">
           <div className="gallery-layout">
             {verticalImages.length > 0 && (
@@ -79,11 +71,11 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
                 <img style={{width:"100px"}} src="https://i.imgur.com/G8zpABo.jpeg" alt="" />
               </div>
             )}
-            
+
             <div className="main-gallery-area">
               <div className="main-image-container">
                 {currentRefaction ? (
-                  <ImageSlider 
+                  <ImageSlider
                     beforeImage={currentRefaction.originalImageUrl}
                     afterImage={currentRefaction.newImageUrl}
                   />
@@ -96,12 +88,11 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
                     fill
                     style={{ objectFit: 'contain' }}
                     priority
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="main-property-image"
                   />
                 )}
               </div>
-              
+
               {(horizontalImages.length > 0 || refactionImages.length > 0) && (
                 <div className="thumbnail-row">
                    {horizontalImages.map((url, index) => (
@@ -149,15 +140,15 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
             </div>
           </div>
         </div>
-        
+
         {property.latitude && property.longitude && (
-          <Map 
-            lat={property.latitude} 
-            lng={property.longitude} 
-            locationName={property.location} 
+          <Map
+            lat={property.latitude}
+            lng={property.longitude}
+            locationName={property.location}
           />
         )}
-        
+
         <PropertyExpenses expenses={expenses} />
       </div>
     </>
