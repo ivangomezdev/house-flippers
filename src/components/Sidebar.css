@@ -34,6 +34,9 @@
   color: #333;
   border-left: 3px solid transparent;
   transition: background-color 0.2s ease, color 0.2s ease;
+  display: flex; /* Para alinear icono y texto */
+  align-items: center;
+  gap: 0.75rem; /* Espacio entre icono y texto */
 }
 
 .sidebar__link:hover {
@@ -42,7 +45,25 @@
 
 .sidebar__link--active {
   background-color: #00457a4a; /* Un verde muy claro */
-  color: white;
+  color: #001b4c;
   font-weight: 500;
-  border-left-color: blue;
+  border-left-color: #001b4c;
+}
+
+/* --- NUEVOS ESTILOS --- */
+
+.sidebar__link--home {
+  font-weight: 600;
+  color: #001b4c;
+}
+
+.sidebar__link--home:hover {
+    background-color: #eef3f8;
+}
+
+.sidebar__separator {
+    border: none;
+    height: 1px;
+    background-color: #e9ecef;
+    margin: 0.5rem 1.5rem; /* Margen para separar */
 }
