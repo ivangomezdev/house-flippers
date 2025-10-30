@@ -1,10 +1,17 @@
 .form-container {
   max-width: 800px;
-  margin: 150px auto;
+  margin: 100px auto 2rem;
   padding: 2rem;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 90%;
+}
+
+.form-container h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2rem;
 }
 
 .property-form .form-group {
@@ -18,48 +25,81 @@
   color: #333;
 }
 
-.property-form input[type="text"],
-.property-form input[type="number"],
-.property-form input[type="date"],
-.property-form textarea {
+.property-form input,
+.property-form textarea,
+.property-form select {
   width: 100%;
   padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 1rem;
+  font-family: inherit;
 }
 
 .property-form textarea {
   resize: vertical;
+  min-height: 100px;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.crypto-tax-info {
+  background-color: #eef3f8;
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid #d1e0ec;
+}
+
+.crypto-tax-info label {
+  font-size: 1.1rem;
+}
+
+.crypto-tax-info p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #001b4cff;
+  margin: 0.25rem 0;
+}
+
+.crypto-tax-info span {
+  font-size: 0.8rem;
+  color: #555;
 }
 
 .submit-button {
-  display: inline-block;
+  display: block;
+  width: 100%;
   background-image: url("https://i.imgur.com/UEe4UPa.png");
   color: var(--color-white);
   background-size: cover;
   border: none;
-  padding: 0.875rem 2.5rem;
-  font-size: 1rem;
+  padding: 1rem;
+  font-size: 1.125rem;
   font-weight: 600;
   border-radius: 4px;
   cursor: pointer;
   transition: var(--transition);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  margin-top: 1.5rem;
 }
 
 .submit-button:hover {
-  background-color: var(--color-primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
 }
 
-/* --- ESTILOS PARA EL INPUT DE ARCHIVOS --- */
 .file-input-wrapper {
   position: relative;
   width: 100%;
-
 }
 
-/* Este es el input real, debe ser invisible para que el label funcione en su lugar */
 .file-input {
   position: absolute;
   opacity: 0;
@@ -69,11 +109,9 @@
   z-index: 2;
 }
 
-/* A ESTE ELEMENTO SE LE APLICA EL FLEX-DIRECTION */
 .file-input-label {
-    
   display: flex;
-  flex-direction: column; /* <-- AQUÍ ESTÁ LA CORRECCIÓN */
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
@@ -81,7 +119,6 @@
   padding: 2rem;
   border: 2px dashed #ccc;
   border-radius: 8px;
- 
   cursor: pointer;
   transition: all 0.3s ease;
   color: #666;
@@ -98,7 +135,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #7c2d12; /* Maroon background like in the image */
+  background-color: #7c2d12;
   border-radius: 8px;
   z-index: 1;
   opacity: 0.05;
@@ -110,28 +147,17 @@
 }
 
 .file-input-label:hover {
-  border-color: #009dff; /* Purple hover */
-  background-color: #f2f8fd; /* Light pinkish hover bg */
+  border-color: #009dff;
+  background-color: #f2f8fd;
   color: #009dff;
 }
 
-.file-input-label svg {
-  font-size: 2.5rem;
-  color: #ec4899; /* Pinkish purple for cloud icon */
-}
-
-.file-input-label .formats-text {
-  font-size: 0.875rem;
-  color: #9ca3af;
-  margin: 0;
-}
-
 .browse-button {
- background-image: url("https://i.imgur.com/UEe4UPa.png");
- background-size: cover;
- background-position: center;
+  background-image: url("https://i.imgur.com/UEe4UPa.png");
+  background-size: cover;
+  background-position: center;
   color: white;
-  margin-top:20px;
+  margin-top: 1rem;
   border: none;
   border-radius: 4px;
   padding: 0.75rem 1.5rem;
@@ -139,28 +165,8 @@
   font-size: 1rem;
   font-weight: 500;
   transition: background-color 0.2s ease;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
 }
 
-.browse-button:hover {
-  background-color: #9333ea; /* Darker purple on hover */
-}
-
-.file-input:disabled + .file-input-label {
-  opacity: 0.6;
-  cursor: not-allowed;
-  border-color: #e0e0e0;
-}
-
-.file-input:disabled + .file-input-label:hover {
-  border-color: #e0e0e0;
-  background-color: #fff;
-  color: #666;
-}
-
-/* --- ESTILOS PARA LA VISTA PREVIA Y BOTÓN DE ELIMINAR --- */
 .file-preview {
   margin-top: 1rem;
 }
@@ -181,13 +187,6 @@
   font-size: 0.9rem;
 }
 
-.file-item span {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-right: 1rem;
-}
-
 .remove-button {
   background-color: #f44336;
   color: white;
@@ -200,11 +199,36 @@
   flex-shrink: 0;
 }
 
-.remove-button:hover {
-  background-color: #d32f2f;
+@media (max-width: 768px) {
+  .form-container {
+    margin-top: 80px;
+    padding: 1.5rem;
+    width: 95%;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .form-container h1 {
+    font-size: 1.8rem;
+  }
 }
 
-.remove-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+@media (max-width: 520px) {
+  .form-container {
+    margin-top: 110px;
+    padding: 1rem;
+    border: none;
+    box-shadow: none;
+  }
+
+  .form-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .file-input-label {
+    padding: 1.5rem;
+  }
 }

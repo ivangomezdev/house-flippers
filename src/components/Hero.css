@@ -4,6 +4,8 @@
   position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
   background-image: url('https://i.imgur.com/qxfNL7n.jpeg');
   background-size: cover;
   background-position: center;
@@ -25,50 +27,52 @@
   z-index: 10;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 8rem 2rem 4rem;
+  padding: 2rem;
   color: var(--color-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.hero__title {
-  font-size: 5rem;
-  font-weight: 700;
-  line-height: 1.1;
-  margin-bottom: 2rem;
-  max-width: 700px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+.hero__logo {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  background: rgba(200, 200, 200, 0.2);
+  border-radius: 5px;
+  padding: 8px;
 }
 
-.hero__description {
-  font-size: 1.25rem;
-  line-height: 1.6;
-  margin-bottom: 3rem;
-  max-width: 600px;
-  font-weight: 300;
-}
-
-.hero__cta-text {
-  font-size: 1.125rem;
-  margin-bottom: 2rem;
-  font-weight: 400;
+.hero__button-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%; /* Ocupa todo el ancho disponible */
+  max-width: 500px; /* Ancho máximo para el contenedor de botones */
 }
 
 .hero__button {
-   background-image: url("https://i.imgur.com/UEe4UPa.png");
+  background-image: url("https://i.imgur.com/UEe4UPa.png");
   background-position: center;
   background-size: cover;
   color: var(--color-white);
   border: none;
-  padding: 1rem 3rem;
-  font-size: 1.125rem;
+  padding: 1rem 0; /* Padding vertical, el horizontal lo controla flex */
+  font-size: 1rem;
   font-weight: 600;
   border-radius: 4px;
   cursor: pointer;
   transition: var(--transition);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  
+  /* --- LA CLAVE ESTÁ AQUÍ --- */
+  flex: 1; /* Cada botón ocupará el mismo espacio disponible */
+  min-width: 180px; /* Un ancho mínimo para que no se vean mal */
 }
 
 .hero__button:hover {
-  background-color: var(--color-primary-dark);
   transform: translateY(-2px);
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
@@ -77,36 +81,40 @@
   transform: translateY(0);
 }
 
-/* RESPONSIVE */
+/* --- RESPONSIVE --- */
+
 @media (max-width: 768px) {
   .hero__content {
-    padding: 6rem 1.5rem 3rem;
+    padding: 1.5rem;
   }
 
-  .hero__title {
-    font-size: 3rem;
+  .hero__logo {
+    max-width: 400px;
   }
-
-  .hero__description {
-    font-size: 1.125rem;
-  }
-
-  .hero__cta-text {
-    font-size: 1rem;
-  }
-
-  .hero__button {
-    padding: 0.875rem 2.5rem;
-    font-size: 1rem;
+  
+  .hero__button-group {
+    max-width: 450px;
   }
 }
 
-@media (max-width: 480px) {
-  .hero__title {
-    font-size: 2.5rem;
+@media (max-width: 520px) {
+  .hero__logo {
+    max-width: 320px;
+
   }
 
-  .hero__description {
-    font-size: 1rem;
+  .hero__button-group {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem; /* Menos espacio cuando están apilados */
+  }
+
+  .hero__button {
+    width: 80%; /* Ocupan un ancho fijo cuando están en columna */
+    flex: none; /* Desactivamos el flex: 1 en móviles */
+    max-width: 280px;
+    min-width: 280px;
+    padding: 0.8rem 1.5rem; /* Restauramos el padding horizontal */
+    font-size: 0.9rem;
   }
 }

@@ -3,24 +3,32 @@
   width: 260px;
   background-color: #ffffff;
   border-right: 1px solid #e9ecef;
-  padding: 0 0;
   display: flex;
   flex-direction: column;
-  position: sticky;
-  top: 20px; /* Misma altura que el padding-top del layout */
-  height: calc(100vh - 80px); /* Ocupa el alto restante */
 }
+
+.sidebar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
 .sidebar__title {
   font-size: 1.25rem;
   font-weight: 600;
-  padding: 0 1.5rem 1rem;
-  margin-bottom: 1rem;
-  border-bottom: 1px solid #e9ecef;
+  margin: 0;
+}
+
+.sidebar__close-btn {
+  display: none;
 }
 
 .sidebar__nav {
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
 }
 
 .sidebar__link {
@@ -34,9 +42,9 @@
   color: #333;
   border-left: 3px solid transparent;
   transition: background-color 0.2s ease, color 0.2s ease;
-  display: flex; /* Para alinear icono y texto */
+  display: flex;
   align-items: center;
-  gap: 0.75rem; /* Espacio entre icono y texto */
+  gap: 0.75rem;
 }
 
 .sidebar__link:hover {
@@ -44,13 +52,11 @@
 }
 
 .sidebar__link--active {
-  background-color: #00457a4a; /* Un verde muy claro */
+  background-color: #00457a4a;
   color: #001b4c;
   font-weight: 500;
   border-left-color: #001b4c;
 }
-
-/* --- NUEVOS ESTILOS --- */
 
 .sidebar__link--home {
   font-weight: 600;
@@ -58,12 +64,33 @@
 }
 
 .sidebar__link--home:hover {
-    background-color: #eef3f8;
+  background-color: #eef3f8;
 }
 
 .sidebar__separator {
+  border: none;
+  height: 1px;
+  background-color: #e9ecef;
+  margin: 0.5rem 1.5rem;
+}
+
+@media (max-width: 500px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 1000;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .sidebar__close-btn {
+    display: block;
+    background: none;
     border: none;
-    height: 1px;
-    background-color: #e9ecef;
-    margin: 0.5rem 1.5rem; /* Margen para separar */
+    cursor: pointer;
+    color: #555;
+    padding: 5px;
+  }
 }

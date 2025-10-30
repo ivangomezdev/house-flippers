@@ -1,7 +1,9 @@
+'use client';
 import AddPropertyForm from '../../components/AddPropertyForm';
 import Navbar from '../../components/NavBar';
+import withAuth from '../../components/WithAuth';
 
-export default function AddPropertyPage() {
+const AddPropertyContent = () => {
   return (
     <>
       <Navbar />
@@ -10,4 +12,6 @@ export default function AddPropertyPage() {
       </main>
     </>
   );
-}
+};
+
+export default withAuth(AddPropertyContent);

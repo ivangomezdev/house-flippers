@@ -72,3 +72,24 @@
   background-color: #ccc;
   cursor: not-allowed;
 }
+
+/* RESPONSIVE PARA MÓVILES (520px o menos) */
+@media (max-width: 520px) {
+  .expense-form-container {
+    padding: 1.5rem 1rem; /* Reducimos el padding horizontal y vertical */
+    box-shadow: none; /* Quitamos la sombra para integrar mejor en móvil */
+    border-radius: 0; /* Quitamos el borde redondeado en móvil */
+    margin: 0; /* Eliminamos el margen para ocupar el 100% del ancho */
+    max-width: 100%; /* Aseguramos que ocupe todo el ancho disponible */
+    min-height: 800px;
+  }
+
+  .expense-form-container__title {
+    font-size: 1.5rem;
+  }
+
+  .expense-form-container__subtitle {
+    font-size: 0.9rem;
+   margin-bottom: 1.5rem;
+  }
+}

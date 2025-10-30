@@ -14,3 +14,18 @@
   padding-bottom: 0.5rem;
   border-bottom: 2px solid #f0f0f0;
 }
+
+@media (max-width: 520px) {
+  .map-container {
+    margin-top: 1.5rem; /* Menos margen superior */
+    padding: 1rem 0.5rem;  /* Padding reducido */
+    box-shadow: none; /* Opcional: quitar la sombra en móviles */
+    border-top: 1px solid #eee; /* Opcional: añadir un borde para separar */
+    border-radius: 0;
+  }
+
+  .map-title {
+    font-size: 1.3rem; /* Título más pequeño */
+    margin-bottom: 1rem;
+  }
+}
