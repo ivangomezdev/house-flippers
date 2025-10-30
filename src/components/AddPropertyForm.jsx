@@ -14,11 +14,13 @@ export default function AddPropertyForm() {
   const [property, setProperty] = useState({
     location: '',
     cost: '',
+    approximateValue: '', // <-- Nuevo campo: Valor aproximado de la propiedad
+    landSize: '', // <-- Nuevo campo: Tamaño del terreno
     acquisitionDate: '',
     description: '',
     bedrooms: '',
     bathrooms: '',
-    squareMeters: '',
+    squareFeet: '', // <-- Cambio de squareMeters a squareFeet (Tamaño de la propiedad)
     latitude: '',
     longitude: '',
     currency: 'USD', // <-- Valor inicial para la moneda
@@ -81,9 +83,11 @@ export default function AddPropertyForm() {
       const docData = {
         ...property,
         cost: Number(property.cost),
+        approximateValue: Number(property.approximateValue), // <-- Guardamos el valor aproximado
+        landSize: Number(property.landSize), // <-- Guardamos el tamaño del terreno
         bedrooms: Number(property.bedrooms),
         bathrooms: Number(property.bathrooms),
-        squareMeters: Number(property.squareMeters),
+        squareFeet: Number(property.squareFeet), // <-- Guardamos los pies cuadrados
         latitude: Number(property.latitude),
         longitude: Number(property.longitude),
         imageUrls: imageUrls,
@@ -180,6 +184,11 @@ export default function AddPropertyForm() {
             </div>
         </div>
         
+        <div className="form-group">
+          <label htmlFor="approximateValue">Valor Aproximado de la Propiedad</label>
+          <input type="number" id="approximateValue" name="approximateValue" value={property.approximateValue} onChange={handleChange} required disabled={isLoading} />
+        </div>
+
         {property.currency === 'CRYPTO' && (
             <div className="form-group crypto-tax-info">
                 <label>Impuesto Crypto</label>
@@ -187,6 +196,11 @@ export default function AddPropertyForm() {
                 <span>(Se calculan $40 de impuestos por cada $1,000 de costo)</span>
             </div>
         )}
+        
+        <div className="form-group">
+          <label htmlFor="landSize">Tamaño del Terreno (pies cuadrados)</label>
+          <input type="number" id="landSize" name="landSize" value={property.landSize} onChange={handleChange} required disabled={isLoading} />
+        </div>
 
         <div className="form-group">
           <label htmlFor="acquisitionDate">Fecha de Adquisición</label>
@@ -204,9 +218,10 @@ export default function AddPropertyForm() {
           <label htmlFor="bathrooms">Cantidad de Baños</label>
           <input type="number" id="bathrooms" name="bathrooms" value={property.bathrooms} onChange={handleChange} required disabled={isLoading} />
         </div>
+        
         <div className="form-group">
-          <label htmlFor="squareMeters">Cantidad de Metros Cuadrados</label>
-          <input type="number" id="squareMeters" name="squareMeters" value={property.squareMeters} onChange={handleChange} required disabled={isLoading} />
+          <label htmlFor="squareFeet">Cantidad de Pies Cuadrados Construidos</label>
+          <input type="number" id="squareFeet" name="squareFeet" value={property.squareFeet} onChange={handleChange} required disabled={isLoading} />
         </div>
 
         <div className="form-group">
