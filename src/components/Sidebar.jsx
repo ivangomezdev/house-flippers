@@ -10,6 +10,8 @@ const HomeIcon = () => (
 );
 
 
+
+
 const Sidebar = ({ activeView, setActiveView }) => {
   const navLinks = [
     { id: 'addExpense', label: 'Agregar Gasto' },
@@ -17,6 +19,7 @@ const Sidebar = ({ activeView, setActiveView }) => {
     { id: 'markAsSold', label: 'Marcar como Vendida' },
     { id: 'totalInvestment', label: 'Inversión Total' },
     { id: 'earnings', label: 'Ganancias' },
+    { id: 'expenses', label: 'Gastos' },
   ];
 
   return (
@@ -40,6 +43,7 @@ const Sidebar = ({ activeView, setActiveView }) => {
             className={`sidebar__link ${activeView === link.id ? 'sidebar__link--active' : ''}`}
             onClick={() => setActiveView(link.id)}
           >
+            {link.icon}
             {link.label}
           </button>
         ))}

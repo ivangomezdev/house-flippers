@@ -76,3 +76,22 @@
   background-color: #f9f9f9;
   border-radius: 6px;
 }
+
+.image-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-button:hover {
+    background-color: #f0f0f0;
+}
+
+.image-header {
+    text-align: center;
+}

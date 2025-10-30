@@ -21,16 +21,28 @@ export default function AddPropertyForm() {
     squareMeters: '',
     latitude: '',
     longitude: '',
+    currency: 'USD', // <-- Valor inicial para la moneda
   });
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [tax, setTax] = useState(0); // <-- Nuevo estado para el impuesto
 
   useEffect(() => {
     initializeAuth()
       .then(setCurrentUser)
       .catch(error => console.error("Auth failed:", error));
   }, []);
+
+  // --- useEffect para calcular el impuesto de crypto ---
+  useEffect(() => {
+    if (property.currency === 'CRYPTO' && property.cost > 0) {
+      const calculatedTax = Math.floor(property.cost / 1000) * 40;
+      setTax(calculatedTax);
+    } else {
+      setTax(0);
+    }
+  }, [property.cost, property.currency]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,11 +75,9 @@ export default function AddPropertyForm() {
     setIsLoading(true);
 
     try {
-      // 1. Subir todas las imágenes usando el nuevo servicio
       const uploadPromises = images.map(uploadImage);
       const imageUrls = await Promise.all(uploadPromises);
 
-      // 2. Preparar los datos para Firestore
       const docData = {
         ...property,
         cost: Number(property.cost),
@@ -79,13 +89,12 @@ export default function AddPropertyForm() {
         imageUrls: imageUrls,
         createdAt: new Date(),
         userId: currentUser.uid,
+        tax: tax, // <-- Guardamos el impuesto
       };
 
-      // 3. Guardar el documento en Firestore
       const collectionPath = `/artifacts/${appId}/public/data/properties`;
       const docRef = await addDoc(collection(db, collectionPath), docData);
 
-      // 4. Mostrar éxito y redirigir
       setIsLoading(false);
       await Swal.fire({
         title: '¡Éxito!',
@@ -95,7 +104,7 @@ export default function AddPropertyForm() {
         showConfirmButton: false,
       });
 
-      router.push(`dashboard/property/${docRef.id}`);
+      router.push(`/dashboard/${docRef.id}`);
 
     } catch (error) {
       setIsLoading(false);
@@ -118,14 +127,14 @@ export default function AddPropertyForm() {
               multiple
               onChange={handleImageChange}
               className="file-input"
-              accept="image/jpeg,image/png,application/pdf,video/mp4"
+              accept="image/jpeg,image/png"
               disabled={isLoading}
             />
             <label htmlFor="images" className="file-input-label">
               <div style={{display:"flex",flexDirection:"column",alignItems:"center",gap:"7px"}}>
               <CloudUploadIcon style={{color:"#001b4cff",fontSize:"50px"}}/>
               <span>Subir fotos de la propiedad</span>
-              <p className="formats-text">JPEG, PNG, PDF, y MP4, hasta 50MB</p>
+              <p className="formats-text">JPEG, PNG</p>
               <button type="button" className="browse-button">Buscar ▶</button>
               </div>
             </label>
@@ -151,15 +160,34 @@ export default function AddPropertyForm() {
           </div>
         </div>
 
-        {/* Resto del formulario */}
         <div className="form-group">
           <label htmlFor="location">Ubicación</label>
           <input type="text" id="location" name="location" value={property.location} onChange={handleChange} required disabled={isLoading} />
         </div>
-        <div className="form-group">
-          <label htmlFor="cost">Costo de la Propiedad (USD)</label>
-          <input type="number" id="cost" name="cost" value={property.cost} onChange={handleChange} required disabled={isLoading} />
+        
+        <div className="form-row">
+            <div className="form-group">
+                <label htmlFor="cost">Costo de la Propiedad</label>
+                <input type="number" id="cost" name="cost" value={property.cost} onChange={handleChange} required disabled={isLoading} />
+            </div>
+            <div className="form-group">
+                <label htmlFor="currency">Moneda</label>
+                <select id="currency" name="currency" value={property.currency} onChange={handleChange} disabled={isLoading} required>
+                    <option value="USD">USD</option>
+                    <option value="MXN">MXN</option>
+                    <option value="CRYPTO">CRYPTO</option>
+                </select>
+            </div>
         </div>
+        
+        {property.currency === 'CRYPTO' && (
+            <div className="form-group crypto-tax-info">
+                <label>Impuesto Crypto</label>
+                <p>${tax.toLocaleString()}</p>
+                <span>(Se calculan $40 de impuestos por cada $1,000 de costo)</span>
+            </div>
+        )}
+
         <div className="form-group">
           <label htmlFor="acquisitionDate">Fecha de Adquisición</label>
           <input type="date" id="acquisitionDate" name="acquisitionDate" value={property.acquisitionDate} onChange={handleChange} required disabled={isLoading} />
@@ -181,7 +209,6 @@ export default function AddPropertyForm() {
           <input type="number" id="squareMeters" name="squareMeters" value={property.squareMeters} onChange={handleChange} required disabled={isLoading} />
         </div>
 
-        {/* Campos de coordenadas */}
         <div className="form-group">
           <label htmlFor="latitude">Latitud</label>
           <input type="number" step="any" id="latitude" name="latitude" value={property.latitude} onChange={handleChange} placeholder="Ej: 20.6295" required disabled={isLoading} />

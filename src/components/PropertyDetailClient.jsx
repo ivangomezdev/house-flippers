@@ -158,7 +158,6 @@ export default function PropertyDetailClient({ property, expenses, refactionImag
           />
         )}
 
-        <PropertyExpenses expenses={expenses} />
       </div>
     </>
   );
