@@ -3,6 +3,7 @@
   margin: 80px auto 2rem; /* Reducido el margen superior e inferior */
   padding: 1rem; /* Padding base reducido */
   gap: 8px;
+  margin-top: 150px;
 }
 
 .property-title {
@@ -107,7 +108,6 @@
   padding: 1rem;
   border-radius: 8px;
   border: solid 1px rgba(128, 128, 128, 0.226);
-  align-self: flex-start; /* Evita que se estire si la galería es más alta */
 }
 
 .property-info h2 {
