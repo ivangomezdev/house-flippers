@@ -24,6 +24,7 @@ export default function AddPropertyForm() {
     latitude: '',
     longitude: '',
     currency: 'USD', // <-- Valor inicial para la moneda
+    constructionYear: '', // <-- Nuevo campo: Año de construcción
   });
   const [images, setImages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -90,6 +91,7 @@ export default function AddPropertyForm() {
         squareFeet: Number(property.squareFeet), // <-- Guardamos los pies cuadrados
         latitude: Number(property.latitude),
         longitude: Number(property.longitude),
+        constructionYear: Number(property.constructionYear), // <-- Guardamos el año de construcción
         imageUrls: imageUrls,
         createdAt: new Date(),
         userId: currentUser.uid,
@@ -222,6 +224,11 @@ export default function AddPropertyForm() {
         <div className="form-group">
           <label htmlFor="squareFeet">Cantidad de Pies Cuadrados Construidos</label>
           <input type="number" id="squareFeet" name="squareFeet" value={property.squareFeet} onChange={handleChange} required disabled={isLoading} />
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="constructionYear">Año de Construcción</label>
+          <input type="number" id="constructionYear" name="constructionYear" value={property.constructionYear} onChange={handleChange} required disabled={isLoading} />
         </div>
 
         <div className="form-group">

@@ -167,6 +167,7 @@ export default function PropertyDetailClient ({
               <span>🛁 {property.bathrooms} Baños</span>
               <span>🏠 {property.propertySize || 'N/A'} pies construidos</span>
               <span>🌳 {property.landSize || 'N/A'} pies de terreno</span>
+              <span>📅 {property.constructionYear || 'N/A'} Año de construcción</span>
               <span>    
 
                 💰 Valor aprox. ${property.approximateValue || 'No disponible'}
