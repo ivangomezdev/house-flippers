@@ -1,3 +1,5 @@
+// src/components/Sidebar.jsx
+
 'use client';
 import Link from 'next/link';
 import './Sidebar.css';
@@ -16,6 +18,7 @@ const CloseIcon = () => (
 
 const Sidebar = ({ activeView, onViewChange, isOpen, onClose }) => {
   const navLinks = [
+    { id: 'editProperty', label: 'Editar Propiedad' }, // <-- NUEVO LINK AÑADIDO
     { id: 'addExpense', label: 'Agregar Gasto' },
     { id: 'addImage', label: 'Agregar Imagen' },
     { id: 'markAsSold', label: 'Marcar como Vendida' },
