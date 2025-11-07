@@ -165,7 +165,7 @@ export default function PropertyDetailClient ({
             <div className='specs'>
               <span>🛏️ {property.bedrooms} Recámaras</span>
               <span>🛁 {property.bathrooms} Baños</span>
-              <span>🏠 {property.propertySize || 'N/A'} pies construidos</span>
+              <span>🏠 {property.squareFeet || 'N/A'} pies construidos</span>
               <span>🌳 {property.landSize || 'N/A'} pies de terreno</span>
               <span>📅 {property.constructionYear || 'N/A'} Año de construcción</span>
               <span>    
